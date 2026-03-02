@@ -25,11 +25,9 @@ public class CourseDto {
     public int getTotalEnrolled() {
         return totalEnrolled;
     }
-
     public void setTotalEnrolled(int totalEnrolled) {
         this.totalEnrolled = totalEnrolled;
     }
-
     public String getDescription() {
         return description;
     }
