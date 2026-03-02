@@ -5,7 +5,7 @@ import com.course.major.dto.TeacherInfoDto;
 import com.course.major.entity.TeacherEntity;
 
 public interface TeacherService {
-    public TeacherEntity getTeacher(String id);
-    public void register(TeacherEntity teacherEntity);
-    public TeacherInfoDto login(LoginInfoDto loginInfoDto);
+    TeacherEntity getTeacher(String id);
+    void register(TeacherEntity teacherEntity);
+    TeacherInfoDto login(LoginInfoDto loginInfoDto);
 }
