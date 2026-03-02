@@ -19,7 +19,7 @@ public interface CourseService {
     void rate(HttpServletRequest request, String courseId, String rating);
     ResponseEntity<byte[]> getKeyVideo(HttpServletRequest request, String videoKeyId);
     public List<CourseDto> findMyCourses(HttpServletRequest request);
-    public List<CourseDto> search(String query);
+    public List<CourseDto> search(String query,int page);
 
 
 }

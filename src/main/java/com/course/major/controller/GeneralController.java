@@ -14,8 +14,8 @@ public class GeneralController {
     public ResponseEntity<Object> fetchCourse(@PathVariable String courseId) {
         return new ResponseEntity<>(courseService.fetchCourse(courseId), HttpStatus.OK);
     }
-    @GetMapping("/search/{query}")
-    public ResponseEntity<Object> search(@PathVariable String query) {
-        return new ResponseEntity<>(courseService.search(query), HttpStatus.OK);
+    @GetMapping("/search/{query}/{page}")
+    public ResponseEntity<Object> search(@PathVariable String query,@PathVariable int page) {
+        return new ResponseEntity<>(courseService.search(query,page), HttpStatus.OK);
     }
 }

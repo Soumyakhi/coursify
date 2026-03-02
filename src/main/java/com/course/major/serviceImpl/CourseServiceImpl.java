@@ -16,6 +16,9 @@ import com.course.major.utils.TimerUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -106,14 +109,15 @@ public class CourseServiceImpl implements CourseService {
         return courseDtoList;
     }
     @Override
-    public List<CourseDto> search(String query) {
+    public List<CourseDto> search(String query,int page) {
         if(query==null || query.trim().isEmpty()){
             throw new RuntimeException("query is empty");
         }
         query = query.trim();
+        Pageable pageable = PageRequest.of(page-1, 2, Sort.by("name").ascending());
         List<Course> courses = query.length() >= 3
-                ? courseRepo.findByNameContainingIgnoreCase(query)
-                : courseRepo.findByNameStartingWithIgnoreCase(query);
+                ? courseRepo.findByNameContainingIgnoreCase(query,pageable)
+                : courseRepo.findByNameStartingWithIgnoreCase(query,pageable);
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(Course course:courses){
             courseDtoList.add(courseUtil.makeCourseDTO(course));
