@@ -209,8 +209,6 @@ public class CourseServiceImpl implements CourseService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 }
 
 
