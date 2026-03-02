@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class GrokConfig {
+public class GroqConfig {
 
     @Value("${groq.api.key}")
     private String apiKey;
