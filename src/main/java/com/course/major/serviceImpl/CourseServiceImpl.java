@@ -168,23 +168,7 @@ public class CourseServiceImpl implements CourseService {
         return marks+" Out of "+3;
     }
 
-    @Override
-    public void rate(HttpServletRequest request, String courseId, String rating) {
-        int rateInt=Integer.parseInt(rating);
-        if(rateInt<0 || rateInt>5){
-            throw new RuntimeException("invalid rating value");
-        }
-        StudentEntity student=studentRepo.findByIdAndEnrolledCoursesCourseId(jwtUtil.extractUserIdFromRequest(request), courseId);
-        if(student==null){
-            throw new RuntimeException("Student is not enrolled");
-        }
-        for(StudentCourse studentCourse:student.getEnrolledCourses()){
-            if(studentCourse.getCourseId().equals(courseId)){
-                studentCourse.setRating(rating);
-            }
-        }
-        studentRepo.save(student);
-    }
+
 
     public ResponseEntity<byte[]> getKeyVideo(HttpServletRequest request, String videoKeyId){
         try {

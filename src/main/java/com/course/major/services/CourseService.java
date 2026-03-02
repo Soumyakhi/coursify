@@ -16,10 +16,7 @@ public interface CourseService {
     CourseDto fetchCourse(String courseId);
     String takeExam(HttpServletRequest request, String courseId);
     String submitExam(HttpServletRequest request, String courseId, String examVal, List<StudentAnswer> answers);
-    void rate(HttpServletRequest request, String courseId, String rating);
     ResponseEntity<byte[]> getKeyVideo(HttpServletRequest request, String videoKeyId);
-    public List<CourseDto> findMyCourses(HttpServletRequest request);
-    public List<CourseDto> search(String query,int page);
-
-
+    List<CourseDto> findMyCourses(HttpServletRequest request);
+    List<CourseDto> search(String query,int page);
 }

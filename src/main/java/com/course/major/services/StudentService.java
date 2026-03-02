@@ -10,12 +10,11 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface StudentService {
-    public StudentEntity getStudent(String id);
-    public void register(StudentEntity student);
-    public StudentInfoDto login(LoginInfoDto loginInfoDto);
-    public void registerFile(RegFileDto regFileDto);
-    public void editStudent(HttpServletRequest request,StudentEntity studentEntity);
-    public boolean checkEnrolled(HttpServletRequest request,String courseId);
-
-
+    StudentEntity getStudent(String id);
+    void register(StudentEntity student);
+    StudentInfoDto login(LoginInfoDto loginInfoDto);
+    void registerFile(RegFileDto regFileDto);
+    void editStudent(HttpServletRequest request,StudentEntity studentEntity);
+    boolean checkEnrolled(HttpServletRequest request,String courseId);
+    void rate(HttpServletRequest request, String courseId, String rating);
 }

@@ -55,7 +55,7 @@ public class StudentController {
     }
     @PutMapping("/rateCourse/{courseId}/{rating}")
     public ResponseEntity<Object> rateCourse(HttpServletRequest request,@PathVariable String courseId,@PathVariable String rating) {
-        courseService.rate(request,courseId,rating);
+        studentService.rate(request,courseId,rating);
         return new ResponseEntity<>("Rating added", HttpStatus.OK);
     }
     @GetMapping("/fetchMyCourses/")
