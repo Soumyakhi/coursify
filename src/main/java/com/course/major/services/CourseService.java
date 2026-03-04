@@ -19,4 +19,5 @@ public interface CourseService {
     ResponseEntity<byte[]> getKeyVideo(HttpServletRequest request, String videoKeyId);
     List<CourseDto> findMyCourses(HttpServletRequest request);
     List<CourseDto> search(String query,int page);
+    long getPageCount(String query);
 }

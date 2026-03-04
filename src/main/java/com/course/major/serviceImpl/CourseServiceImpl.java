@@ -124,6 +124,19 @@ public class CourseServiceImpl implements CourseService {
         }
         return courseDtoList;
     }
+
+    @Override
+    public long getPageCount(String query) {
+        if(query == null || query.trim().isEmpty()){
+            throw new RuntimeException("query is empty");
+        }
+        query = query.trim();
+        long recordsCount = query.length() >= 3 ? courseRepo.countByNameContainingIgnoreCase(query)
+                : courseRepo.countByNameStartingWithIgnoreCase(query);
+        int pageSize = 2;
+        return (recordsCount + pageSize - 1) / pageSize;
+    }
+
     @Override
     public String takeExam(HttpServletRequest request, String courseId){
         String id=jwtUtil.extractUserIdFromRequest(request);

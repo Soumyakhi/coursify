@@ -18,4 +18,8 @@ public class GeneralController {
     public ResponseEntity<Object> search(@PathVariable String query,@PathVariable int page) {
         return new ResponseEntity<>(courseService.search(query,page), HttpStatus.OK);
     }
+    @GetMapping("/getPages/{query}")
+    public ResponseEntity<Object> getPages(@PathVariable String query) {
+        return new ResponseEntity<>(courseService.getPageCount(query), HttpStatus.OK);
+    }
 }

@@ -12,4 +12,6 @@ public interface CourseRepo extends MongoRepository<Course, String> {
     Course findByVideoFile(String vidId);
     List<Course> findByNameContainingIgnoreCase(String query, Pageable pageable);
     List<Course> findByNameStartingWithIgnoreCase(String query, Pageable pageable);
+    long countByNameContainingIgnoreCase(String query);
+    long countByNameStartingWithIgnoreCase(String query);
 }
