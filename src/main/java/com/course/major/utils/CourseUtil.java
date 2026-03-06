@@ -27,14 +27,20 @@ public class CourseUtil {
         dto.setVideoFilePath(course.getVideoFile());
         List<StudentEntity> studentList=studentRepo.findRatingsByCourseId(course.getId());
         long ratingSum = 0;
+        long totalRatings = 0;
         for (StudentEntity s : studentList) {
             StudentCourse sc = s.getEnrolledCourses().get(0);
-            ratingSum += Long.parseLong(sc.getRating());
+            long rating = Long.parseLong(sc.getRating());
+            if(rating>0 && rating<6){
+                ratingSum += rating;
+                totalRatings ++;
+            }
+
         }
         dto.setRating(
                 studentList.isEmpty()
                         ? "0"
-                        : Double.toString((double) ratingSum / studentList.size())
+                        : Double.toString((double) ratingSum / totalRatings)
         );
         dto.setLevel(course.getLevel());
         dto.setTotalEnrolled(studentList.size());
