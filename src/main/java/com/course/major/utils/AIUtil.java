@@ -64,7 +64,7 @@ public class AIUtil {
                         .get(0)
                         .get("message")
                         .get("content")
-                        .asText())
+                        .asString())
                 .block();
     }
 }

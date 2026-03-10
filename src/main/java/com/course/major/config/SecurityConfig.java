@@ -1,5 +1,6 @@
 package com.course.major.config;
 
+import com.course.major.security.RecruiterAuthenticationFilter;
 import com.course.major.security.StudentAuthenticationFilter;
 import com.course.major.security.TeacherAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -67,9 +68,33 @@ public class SecurityConfig {
 
         return http.build();
     }
-
     @Bean
     @Order(3)
+    public SecurityFilterChain recruiterFilterChain(
+            HttpSecurity http,
+            RecruiterAuthenticationFilter recruiterFilter
+    ) throws Exception {
+
+        http
+                .securityMatcher("/recruiter/**")
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> {})
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(
+                        recruiterFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
+
+        return http.build();
+    }
+    @Bean
+    @Order(4)
     public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
 
         http
