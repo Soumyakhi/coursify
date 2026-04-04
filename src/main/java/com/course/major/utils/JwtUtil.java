@@ -23,11 +23,9 @@ public class JwtUtil {
                 .setIssuedAt(new Date())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
         validTokens.put(userId, jwt);
         return jwt;
     }
-
     public String extractUserId(String token) {
         try {
             return Jwts.parserBuilder()
@@ -40,7 +38,6 @@ public class JwtUtil {
             return "invalid";
         }
     }
-
     public boolean validateToken(String token, String id) {
         String extractedUserId = extractUserId(token);
         return validTokens.containsKey(extractedUserId)
