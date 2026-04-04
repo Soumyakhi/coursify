@@ -1,5 +1,8 @@
 package com.course.major.dto;
 
+import com.course.major.entity.StudentEntity;
+import com.course.major.pojo.StudentCourse;
+
 import java.util.List;
 
 public class StudentInfoDto {
@@ -11,6 +14,7 @@ public class StudentInfoDto {
     private List<String> skills;
     private String phoneNumber;
     private String description;
+    private List<StudentCourse> enrolledCourses;
     public StudentInfoDto() {
     }
     public StudentInfoDto(String id,
@@ -19,7 +23,7 @@ public class StudentInfoDto {
                           String token,
                           List<String> skills,
                           String phoneNumber,
-                          String description) {
+                          String description,List<StudentCourse> enrolledCourses) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -27,16 +31,18 @@ public class StudentInfoDto {
         this.skills = skills;
         this.phoneNumber = phoneNumber;
         this.description = description;
+        this.enrolledCourses = enrolledCourses;
     }
 
     // Convenience constructor from entity
-    public StudentInfoDto(com.course.major.entity.StudentEntity student, String token) {
+    public StudentInfoDto(StudentEntity student, String token) {
         this.id = student.getId();
         this.name = student.getName();
         this.email = student.getEmail();
         this.skills = student.getSkills();
         this.phoneNumber = student.getPhoneNumber();
         this.description = student.getDescription();
+        this.enrolledCourses = student.getEnrolledCourses();
         this.token = token;
     }
 

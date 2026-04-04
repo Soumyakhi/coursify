@@ -18,4 +18,6 @@ public interface StudentRepo extends MongoRepository<StudentEntity, String> {
     )
     List<StudentEntity> findRatingsByCourseId(String courseId);
     StudentEntity findByIdAndEnrolledCoursesCourseId(String id,String courseId);
+    @Query(value = "{}", fields = "{ '_id': 1 }")
+    List<StudentEntity> findTop2By();
 }

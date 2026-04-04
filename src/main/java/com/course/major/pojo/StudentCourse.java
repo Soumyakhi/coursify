@@ -1,16 +1,37 @@
 package com.course.major.pojo;
 
 public class StudentCourse {
+    private String courseName;
+    private String description;
     private String courseId;
     private String percentageMarks;
     private boolean isComplete;
     private String rating;
-    public StudentCourse(String courseId, String percentageMarks, boolean isComplete, String rating) {
+    public StudentCourse(String courseName,String description,String courseId, String percentageMarks, boolean isComplete, String rating) {
         this.courseId = courseId;
         this.percentageMarks = percentageMarks;
         this.isComplete = isComplete;
         this.rating = rating;
+        this.description = description;
+        this.courseName = courseName;
     }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public StudentCourse() {
     }
     public String getCourseId() {

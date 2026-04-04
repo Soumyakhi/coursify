@@ -1,7 +1,9 @@
 package com.course.major.entity;
 
 import com.course.major.pojo.StudentCourse;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 @Document(collection = "students")
@@ -11,6 +13,7 @@ public class StudentEntity {
     private String name;
     private List<String> skills;
     private String phoneNumber;
+    @Indexed(unique = true)
     private String email;
     private String password;
     private String description;

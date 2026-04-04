@@ -10,6 +10,7 @@ import com.course.major.services.StudentService;
 import com.course.major.utils.AIUtil;
 import com.course.major.utils.JwtUtil;
 import com.course.major.utils.FileUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -83,7 +84,17 @@ public class StudentServiceImpl implements StudentService {
                             "}\n\n" +
                             "Text to extract data from:\n" +
                             text;
-            System.out.println(aiUtil.askGroq(prompt));
+            String resp=aiUtil.askGroq(prompt);
+            ObjectMapper mapper = new ObjectMapper();
+            StudentInfoDto studentInfo = mapper.readValue(resp, StudentInfoDto.class);
+            StudentEntity studentEntity=new StudentEntity();
+            studentEntity.setPassword(passwordEncoder.encode(regFileDto.getPassword()));
+            studentEntity.setEmail(regFileDto.getEmail());
+            studentEntity.setName(studentInfo.getName());
+            studentEntity.setDescription(studentInfo.getDescription());
+            studentEntity.setPhoneNumber(studentInfo.getPhoneNumber());
+            studentEntity.setSkills(studentInfo.getSkills());
+            studentRepo.save(studentEntity);
         }catch (Exception e){
             throw new IllegalStateException(e);
         }

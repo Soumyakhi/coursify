@@ -1,19 +1,15 @@
 package com.course.major.controller;
 
 import com.course.major.dto.ExamSubmissionDto;
-import com.course.major.dto.LoginInfoDto;
 import com.course.major.entity.StudentEntity;
 import com.course.major.services.CourseService;
+import com.course.major.services.JobService;
 import com.course.major.services.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.File;
-import java.nio.file.Files;
-
 @CrossOrigin(
         origins = {"http://127.0.0.1:5500"},
         allowedHeaders = "*",
@@ -66,5 +62,10 @@ public class StudentController {
     public ResponseEntity<Object> checkEnrolled(HttpServletRequest request,@PathVariable String courseId) {
         return new ResponseEntity<>(studentService.checkEnrolled(request,courseId), HttpStatus.OK);
     }
-
+    @Autowired
+    JobService jobService;
+    @GetMapping("/myRecommendedJobs")
+    public ResponseEntity<Object> myRecommendedJobs(HttpServletRequest request) {
+        return new ResponseEntity<>(jobService.myJobs(request), HttpStatus.OK);
+    }
 }

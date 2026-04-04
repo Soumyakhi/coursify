@@ -1,6 +1,7 @@
 package com.course.major.entity;
 
 import com.course.major.pojo.Question;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,10 +15,12 @@ public class Course {
     private String teacherId;
     private String teacherName;
     private String videoFile;
+    @UniqueElements
+    private List<String> timeStamps;
     private int level;
     public Course() {}
     public Course(String name, String teacherId, String teacherName, List<Question> questions, String description, String videoFile
-    , int level) {
+    , int level,List<String> timeStamps) {
         this.name = name;
         this.teacherId = teacherId;
         this.teacherName = teacherName;
@@ -25,7 +28,17 @@ public class Course {
         this.description = description;
         this.videoFile = videoFile;
         this.level = level;
+        this.timeStamps = timeStamps;
     }
+
+    public List<String> getTimeStamps() {
+        return timeStamps;
+    }
+
+    public void setTimeStamps(List<String> timeStamps) {
+        this.timeStamps = timeStamps;
+    }
+
     public int getLevel() {
         return level;
     }

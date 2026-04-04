@@ -24,9 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 @Service
 public class CourseServiceImpl implements CourseService {
     @Autowired
@@ -37,6 +36,7 @@ public class CourseServiceImpl implements CourseService {
     CourseRepo courseRepo;
     @Autowired
     private StudentRepo studentRepo;
+
     @Override
     public void addCourse(HttpServletRequest req, String courseJSON, MultipartFile material) {
         try {
@@ -51,10 +51,11 @@ public class CourseServiceImpl implements CourseService {
             String originalFileName = videoId + ".mp4";
             String originalPath = FileUtil.saveVideo(material, originalFileName);
             File originalFile = new File(originalPath);
-                    String lowResPath = FileUtil.convertToHLS(originalFile, videoId, 640, 360, "800k");
+                    String lowResPath = FileUtil.convertToHLS(originalFile, videoId, 640, 360, "500k");
                     System.out.println("360p Complete: " + lowResPath);
-                    String highResPath = FileUtil.convertToHLS(originalFile, videoId, 1920, 1080, "2500k");
+                    String highResPath = FileUtil.convertToHLS(originalFile, videoId, 1920, 1080, "800k");
                     System.out.println("1080p Complete: " + highResPath);
+                    courseDTO.getTimeStamps().sort(Comparator.comparingLong(Long::parseLong));
                     Course course = new Course(
                             courseDTO.getName(),
                             teacherId,
@@ -62,7 +63,8 @@ public class CourseServiceImpl implements CourseService {
                             courseDTO.getQuestions(),
                             courseDTO.getDescription(),
                             videoId,
-                            courseDTO.getLevel()
+                            courseDTO.getLevel(),
+                            courseDTO.getTimeStamps()
                     );
                     courseRepo.save(course);
         } catch (Exception e) {
@@ -90,7 +92,7 @@ public class CourseServiceImpl implements CourseService {
                 throw new RuntimeException("Student already enrolled");
             }
         }
-        student.getEnrolledCourses().add(new StudentCourse(courseId,"0",false,"0"));
+        student.getEnrolledCourses().add(new StudentCourse(course.getName(),course.getDescription(),courseId,"0",false,"0"));
         studentRepo.save(student);
     }
     @Autowired
@@ -105,6 +107,15 @@ public class CourseServiceImpl implements CourseService {
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(StudentCourse studentCourse:studentEntity.getEnrolledCourses()){
             courseDtoList.add(courseUtil.makeCourseDTO(getCourse(studentCourse.getCourseId())));
+        }
+        return courseDtoList;
+    }
+    @Override
+    public List<CourseDto> fetchCourses() {
+        List<CourseDto> courseDtoList = new ArrayList<>();
+        List<Course> courseList = courseRepo.findAll();
+        for(Course course:courseList){
+            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(course.getId())));
         }
         return courseDtoList;
     }
@@ -136,6 +147,8 @@ public class CourseServiceImpl implements CourseService {
         int pageSize = 2;
         return (recordsCount + pageSize - 1) / pageSize;
     }
+
+
 
     @Override
     public String takeExam(HttpServletRequest request, String courseId){

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public class CourseDto {
+    private String id;
     private String name;
     private String description;
     private int level;
@@ -13,8 +14,26 @@ public class CourseDto {
     private String rating;
     private String videoFilePath;
     private int totalEnrolled;
+    private List<String> timeStamps;
     public CourseDto() {
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<String> getTimeStamps() {
+        return timeStamps;
+    }
+
+    public void setTimeStamps(List<String> timeStamps) {
+        this.timeStamps = timeStamps;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,8 +63,8 @@ public class CourseDto {
         return questions;
     }
     public void setQuestions(List<Question> questions) {
-        if (questions == null || questions.size() != 5) {
-            throw new IllegalArgumentException("Course must contain exactly 5 questions");
+        if (questions == null || questions.size() <= 3) {
+            throw new IllegalArgumentException("Course must contain at least 4 questions");
         }
         for (Question question : questions) {
             question.setCorrectAnswer(-1);

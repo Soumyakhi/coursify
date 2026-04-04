@@ -20,4 +20,5 @@ public interface CourseService {
     List<CourseDto> findMyCourses(HttpServletRequest request);
     List<CourseDto> search(String query,int page);
     long getPageCount(String query);
+    List<CourseDto> fetchCourses();
 }

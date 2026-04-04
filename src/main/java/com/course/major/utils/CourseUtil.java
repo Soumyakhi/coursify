@@ -44,6 +44,7 @@ public class CourseUtil {
         );
         dto.setLevel(course.getLevel());
         dto.setTotalEnrolled(studentList.size());
+        dto.setId(course.getId());
         return dto;
     }
 }
