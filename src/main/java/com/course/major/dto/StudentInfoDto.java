@@ -2,6 +2,7 @@ package com.course.major.dto;
 
 import com.course.major.entity.StudentEntity;
 import com.course.major.pojo.StudentCourse;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class StudentInfoDto {
     private String description;
     private List<StudentCourse> enrolledCourses;
     public StudentInfoDto() {
+
     }
     public StudentInfoDto(String id,
                           String name,
@@ -24,6 +26,7 @@ public class StudentInfoDto {
                           List<String> skills,
                           String phoneNumber,
                           String description,List<StudentCourse> enrolledCourses) {
+
         this.id = id;
         this.name = name;
         this.email = email;

@@ -25,7 +25,7 @@ public class StudentController {
         return new ResponseEntity<>("hello", HttpStatus.OK);
     }
     @PutMapping("/editStd")
-    public ResponseEntity<Object> editStd(HttpServletRequest request, @RequestBody StudentEntity studentEntity) {
+    public ResponseEntity<Object> editStd(HttpServletRequest request,@Valid @RequestBody StudentEntity studentEntity) {
         studentService.editStudent(request,studentEntity);
         return new ResponseEntity<>("Student Updated", HttpStatus.OK);
     }

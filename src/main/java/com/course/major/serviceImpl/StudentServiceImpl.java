@@ -85,10 +85,14 @@ public class StudentServiceImpl implements StudentService {
                             "Text to extract data from:\n" +
                             text;
             String resp=aiUtil.askGroq(prompt);
+            System.out.println(resp);
             ObjectMapper mapper = new ObjectMapper();
             StudentInfoDto studentInfo = mapper.readValue(resp, StudentInfoDto.class);
             StudentEntity studentEntity=new StudentEntity();
             studentEntity.setPassword(passwordEncoder.encode(regFileDto.getPassword()));
+            if(studentInfo.getName()==null|| studentInfo.getEmail()==null){
+                throw new IllegalArgumentException("name or email is null");
+            }
             studentEntity.setEmail(regFileDto.getEmail());
             studentEntity.setName(studentInfo.getName());
             studentEntity.setDescription(studentInfo.getDescription());

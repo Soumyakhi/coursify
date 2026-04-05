@@ -1,7 +1,7 @@
 package com.course.major.entity;
 
 import com.course.major.pojo.StudentCourse;
-import org.hibernate.validator.constraints.UniqueElements;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,22 +10,27 @@ import java.util.List;
 public class StudentEntity {
     @Id
     private String id;
+    @NotNull
     private String name;
     private List<String> skills;
     private String phoneNumber;
     @Indexed(unique = true)
+    @NotNull
     private String email;
     private String password;
     private String description;
     private List<StudentCourse> enrolledCourses;
     public StudentEntity() {
+        name = "";
+        email = "";
     }
-    public StudentEntity(String name,
+    public StudentEntity(@NotNull String name,
                          List<String> skills,
                          String phoneNumber,
-                         String email,
+                         @NotNull String email,
                          String password,
-                         String description,List<String> courses,List<StudentCourse> enrolledCourses) {
+                         String description, List<String> courses, List<StudentCourse> enrolledCourses) {
+
         this.name = name;
         this.skills = skills;
         this.phoneNumber = phoneNumber;
@@ -33,6 +38,7 @@ public class StudentEntity {
         this.password = password;
         this.description = description;
         this.enrolledCourses = enrolledCourses;
+
     }
     // Getters and Setters
     public List<StudentCourse> getEnrolledCourses() {
@@ -45,7 +51,7 @@ public class StudentEntity {
         return id;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
@@ -57,7 +63,7 @@ public class StudentEntity {
         return phoneNumber;
     }
 
-    public String getEmail() {
+    public @NotNull String getEmail() {
         return email;
     }
 
@@ -73,7 +79,7 @@ public class StudentEntity {
         this.id = id;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
@@ -85,7 +91,7 @@ public class StudentEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NotNull String email) {
         this.email = email;
     }
 
