@@ -1,6 +1,7 @@
 package com.course.major.services;
 
 import com.course.major.dto.CourseDto;
+import com.course.major.dto.PageResDto;
 import com.course.major.entity.Course;
 import com.course.major.pojo.StudentAnswer;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ public interface CourseService {
     String submitExam(HttpServletRequest request, String courseId, String examVal, List<StudentAnswer> answers);
     ResponseEntity<byte[]> getKeyVideo(HttpServletRequest request, String videoKeyId);
     List<CourseDto> findMyCourses(HttpServletRequest request);
-    List<CourseDto> search(String query,int page);
-    long getPageCount(String query);
+    PageResDto search(String query, int page);
+    long getPageCount(String query, int pageSize);
     List<CourseDto> fetchCourses();
 }

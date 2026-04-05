@@ -1,5 +1,6 @@
 package com.course.major.serviceImpl;
 import com.course.major.dto.CourseDto;
+import com.course.major.dto.PageResDto;
 import com.course.major.entity.*;
 import com.course.major.pojo.Question;
 import com.course.major.pojo.StudentAnswer;
@@ -120,12 +121,13 @@ public class CourseServiceImpl implements CourseService {
         return courseDtoList;
     }
     @Override
-    public List<CourseDto> search(String query,int page) {
+    public PageResDto search(String query, int page) {
         if(query==null || query.trim().isEmpty()){
             throw new RuntimeException("query is empty");
         }
         query = query.trim();
-        Pageable pageable = PageRequest.of(page-1, 2, Sort.by("name").ascending());
+        int pageSize=5;
+        Pageable pageable = PageRequest.of(page-1, pageSize, Sort.by("name").ascending());
         List<Course> courses = query.length() >= 3
                 ? courseRepo.findByNameContainingIgnoreCase(query,pageable)
                 : courseRepo.findByNameStartingWithIgnoreCase(query,pageable);
@@ -133,18 +135,16 @@ public class CourseServiceImpl implements CourseService {
         for(Course course:courses){
             courseDtoList.add(courseUtil.makeCourseDTO(course));
         }
-        return courseDtoList;
+        return new PageResDto(courseDtoList,getPageCount(query,pageSize));
     }
-
     @Override
-    public long getPageCount(String query) {
+    public long getPageCount(String query,int pageSize) {
         if(query == null || query.trim().isEmpty()){
             throw new RuntimeException("query is empty");
         }
         query = query.trim();
         long recordsCount = query.length() >= 3 ? courseRepo.countByNameContainingIgnoreCase(query)
                 : courseRepo.countByNameStartingWithIgnoreCase(query);
-        int pageSize = 2;
         return (recordsCount + pageSize - 1) / pageSize;
     }
 

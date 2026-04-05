@@ -34,7 +34,7 @@ public class StudentController {
     @PutMapping("/enrollCourse/{courseId}")
     public ResponseEntity<Object> enrollCourse(HttpServletRequest request,@PathVariable String courseId) {
         courseService.enroll(request,courseId);
-        return new ResponseEntity<>("Student Updated", HttpStatus.OK);
+        return new ResponseEntity<>("Student Enrolled", HttpStatus.OK);
     }
     @PutMapping("/startExam/{courseId}")
     public ResponseEntity<Object> startExam(HttpServletRequest request,@PathVariable String courseId) {

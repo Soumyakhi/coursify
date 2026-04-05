@@ -1,6 +1,7 @@
 package com.course.major.repo;
 
 import com.course.major.entity.Course;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,5 @@ public interface CourseRepo extends MongoRepository<Course, String> {
     List<Course> findByNameStartingWithIgnoreCase(String query, Pageable pageable);
     long countByNameContainingIgnoreCase(String query);
     long countByNameStartingWithIgnoreCase(String query);
+
 }
