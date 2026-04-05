@@ -7,6 +7,7 @@ import com.course.major.entity.TeacherEntity;
 import com.course.major.services.RecruiterService;
 import com.course.major.services.StudentService;
 import com.course.major.services.TeacherService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class AuthController {
         return new ResponseEntity<>(studentService.login(loginInfoDTO), HttpStatus.OK);
     }
     @PostMapping("/signUpStd")
-    public ResponseEntity<String> signUp(@RequestBody StudentEntity studentEntity) {
+    public ResponseEntity<String> signUp(@Valid @RequestBody StudentEntity studentEntity) {
         studentService.register(studentEntity);
         return new ResponseEntity<>("Signup Successful", HttpStatus.OK);
     }
