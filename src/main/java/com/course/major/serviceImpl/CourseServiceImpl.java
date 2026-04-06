@@ -122,20 +122,27 @@ public class CourseServiceImpl implements CourseService {
     }
     @Override
     public PageResDto search(String query, int page) {
-        if(query==null || query.trim().isEmpty()){
+        if(query == null || query.trim().isEmpty() || page <= 0){
             throw new RuntimeException("query is empty");
         }
+
         query = query.trim();
-        int pageSize=5;
-        Pageable pageable = PageRequest.of(page-1, pageSize, Sort.by("name").ascending());
+        int pageSize = 5;
+
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("name").ascending());
+
         List<Course> courses = query.length() >= 3
-                ? courseRepo.findByNameContainingIgnoreCase(query,pageable)
-                : courseRepo.findByNameStartingWithIgnoreCase(query,pageable);
+                ? courseRepo.findByNameContainingIgnoreCase(query, pageable)
+                : courseRepo.findByNameStartingWithIgnoreCase(query, pageable);
+
         List<CourseDto> courseDtoList = new ArrayList<>();
-        for(Course course:courses){
+        for(Course course : courses){
             courseDtoList.add(courseUtil.makeCourseDTO(course));
         }
-        return new PageResDto(courseDtoList,getPageCount(query,pageSize));
+
+        long pageCount = page == 1 ? getPageCount(query, pageSize) : -1;
+
+        return new PageResDto(courseDtoList, pageCount);
     }
     @Override
     public long getPageCount(String query,int pageSize) {
