@@ -100,14 +100,14 @@ public class CourseServiceImpl implements CourseService {
     CourseUtil courseUtil;
     @Override
     public CourseDto fetchCourse(String courseId) {
-        return courseUtil.makeCourseDTO(getCourse(courseId));
+        return courseUtil.makeCourseDTO(getCourse(courseId),true);
     }
     @Override
     public List<CourseDto> findMyCourses(HttpServletRequest request) {
         StudentEntity studentEntity=studentRepo.findById(jwtUtil.extractUserIdFromRequest(request)).orElseThrow(() -> new RuntimeException("Student not found"));
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(StudentCourse studentCourse:studentEntity.getEnrolledCourses()){
-            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(studentCourse.getCourseId())));
+            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(studentCourse.getCourseId()),false));
         }
         return courseDtoList;
     }
@@ -116,7 +116,7 @@ public class CourseServiceImpl implements CourseService {
         List<CourseDto> courseDtoList = new ArrayList<>();
         List<Course> courseList = courseRepo.findAll();
         for(Course course:courseList){
-            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(course.getId())));
+            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(course.getId()),false));
         }
         return courseDtoList;
     }
@@ -137,7 +137,7 @@ public class CourseServiceImpl implements CourseService {
 
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(Course course : courses){
-            courseDtoList.add(courseUtil.makeCourseDTO(course));
+            courseDtoList.add(courseUtil.makeCourseDTO(course,true));
         }
 
         long pageCount = page == 1 ? getPageCount(query, pageSize) : -1;

@@ -18,12 +18,14 @@ public class CourseUtil {
     private CourseRepo courseRepo;
     @Autowired
     private StudentRepo studentRepo;
-    public CourseDto makeCourseDTO(Course course)
+    public CourseDto makeCourseDTO(Course course,boolean setQuestions)
     {
         CourseDto dto=new CourseDto();
         dto.setName(course.getName());
         dto.setDescription(course.getDescription());
-        dto.setQuestions(course.getQuestions());
+        if(setQuestions){
+            dto.setQuestions(course.getQuestions());
+        }
         dto.setVideoFilePath(course.getVideoFile());
         List<StudentEntity> studentList=studentRepo.findRatingsByCourseId(course.getId());
         long ratingSum = 0;
