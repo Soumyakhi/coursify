@@ -49,6 +49,7 @@ public class StudentInfoDto {
         this.token = token;
     }
 
+
     // Getters and Setters
 
     public String getId() {

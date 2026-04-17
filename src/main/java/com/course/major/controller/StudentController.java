@@ -3,6 +3,7 @@ package com.course.major.controller;
 import com.course.major.dto.ExamSubmissionDto;
 import com.course.major.entity.StudentEntity;
 import com.course.major.services.CourseService;
+import com.course.major.services.InferenceService;
 import com.course.major.services.JobService;
 import com.course.major.services.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
     @Autowired
     StudentService studentService;
+    @Autowired
+    private InferenceService inferenceService;
+
     @GetMapping("/hi")
     public ResponseEntity<Object> hi() {
         return new ResponseEntity<>("hello", HttpStatus.OK);
@@ -67,5 +71,13 @@ public class StudentController {
     @GetMapping("/myRecommendedJobs")
     public ResponseEntity<Object> myRecommendedJobs(HttpServletRequest request) {
         return new ResponseEntity<>(jobService.myJobs(request), HttpStatus.OK);
+    }
+    @GetMapping("/fetchCourseStd/{courseId}")
+    public ResponseEntity<Object> fetchCourse(HttpServletRequest request,@PathVariable String courseId) {
+        return new ResponseEntity<>(courseService.fetchCourseStudent(request,courseId), HttpStatus.OK);
+    }
+    @GetMapping("/recommend")
+    public ResponseEntity<Object> fetchCourse(HttpServletRequest request) {
+        return new ResponseEntity<>(inferenceService.recommendCourse(request), HttpStatus.OK);
     }
 }

@@ -1,6 +1,5 @@
 package com.course.major.serviceImpl;
-import com.course.major.dto.CourseDto;
-import com.course.major.dto.PageResDto;
+import com.course.major.dto.*;
 import com.course.major.entity.*;
 import com.course.major.pojo.Question;
 import com.course.major.pojo.StudentAnswer;
@@ -8,12 +7,10 @@ import com.course.major.pojo.StudentCourse;
 import com.course.major.repo.CourseRepo;
 import com.course.major.repo.StudentRepo;
 import com.course.major.services.CourseService;
+import com.course.major.services.InferenceService;
 import com.course.major.services.StudentService;
 import com.course.major.services.TeacherService;
-import com.course.major.utils.CourseUtil;
-import com.course.major.utils.FileUtil;
-import com.course.major.utils.JwtUtil;
-import com.course.major.utils.TimerUtil;
+import com.course.major.utils.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,8 @@ public class CourseServiceImpl implements CourseService {
     CourseRepo courseRepo;
     @Autowired
     private StudentRepo studentRepo;
+    @Autowired
+    private TimerUtil timerUtil;
 
     @Override
     public void addCourse(HttpServletRequest req, String courseJSON, MultipartFile material) {
@@ -68,6 +67,7 @@ public class CourseServiceImpl implements CourseService {
                             courseDTO.getTimeStamps()
                     );
                     courseRepo.save(course);
+                    inferenceUtil.postCourse(courseUtil.makeCourseDTO(course));
         } catch (Exception e) {
             System.err.println("Upload Error: " + e.getMessage());
             throw new RuntimeException("Failed to add course", e);
@@ -95,31 +95,44 @@ public class CourseServiceImpl implements CourseService {
         }
         student.getEnrolledCourses().add(new StudentCourse(course.getName(),course.getDescription(),courseId,"0",false,"0"));
         studentRepo.save(student);
+        inferenceUtil.postCourse(courseUtil.makeCourseDTO(course));
+        inferenceUtil.postStudent(new StudentInferenceDTO(student));
     }
     @Autowired
     CourseUtil courseUtil;
     @Override
     public CourseDto fetchCourse(String courseId) {
-        return courseUtil.makeCourseDTO(getCourse(courseId),true);
+        return courseUtil.makeCourseDTO(getCourse(courseId));
     }
     @Override
     public List<CourseDto> findMyCourses(HttpServletRequest request) {
         StudentEntity studentEntity=studentRepo.findById(jwtUtil.extractUserIdFromRequest(request)).orElseThrow(() -> new RuntimeException("Student not found"));
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(StudentCourse studentCourse:studentEntity.getEnrolledCourses()){
-            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(studentCourse.getCourseId()),false));
+            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(studentCourse.getCourseId())));
         }
         return courseDtoList;
     }
+    @Autowired
+    InferenceUtil inferenceUtil;
     @Override
     public List<CourseDto> fetchCourses() {
         List<CourseDto> courseDtoList = new ArrayList<>();
         List<Course> courseList = courseRepo.findAll();
         for(Course course:courseList){
-            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(course.getId()),false));
+            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(course.getId())));
         }
+        inferenceUtil.postCourse(courseDtoList);
         return courseDtoList;
     }
+
+    @Override
+    public StudentCourseDto fetchCourseStudent(HttpServletRequest request, String courseId) {
+        String studentId = jwtUtil.extractUserIdFromRequest(request);
+        StudentEntity studentEntity=studentRepo.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+        return new StudentCourseDto(studentEntity,getCourse(courseId));
+    }
+
     @Override
     public PageResDto search(String query, int page) {
         if(query == null || query.trim().isEmpty() || page <= 0){
@@ -137,7 +150,7 @@ public class CourseServiceImpl implements CourseService {
 
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(Course course : courses){
-            courseDtoList.add(courseUtil.makeCourseDTO(course,true));
+            courseDtoList.add(courseUtil.makeCourseDTO(course));
         }
 
         long pageCount = page == 1 ? getPageCount(query, pageSize) : -1;
@@ -158,7 +171,7 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    public String takeExam(HttpServletRequest request, String courseId){
+    public StartExamDTO takeExam(HttpServletRequest request, String courseId){
         String id=jwtUtil.extractUserIdFromRequest(request);
         StudentEntity student=studentRepo.findByIdAndEnrolledCoursesCourseId(id,courseId);
         if(student==null){
@@ -166,16 +179,26 @@ public class CourseServiceImpl implements CourseService {
         }
         for(int i=0;i<student.getEnrolledCourses().size();i++){
             StudentCourse stdCourse=student.getEnrolledCourses().get(i);
-            if(stdCourse.getCourseId().equals(courseId)){
-                stdCourse.setComplete(true);
+            if(stdCourse.getCourseId().equals(courseId) && !stdCourse.getIsComplete()){
+                studentRepo.save(student);
+                Course course=getCourse(stdCourse.getCourseId());
+                int min = 0, max = course.getQuestions().size()-1;
+                int[] indexes = new Random().ints(min, max + 1)
+                        .distinct()
+                        .limit(3)
+                        .toArray();
+                Question[] questions = new Question[3];
+                questions[0]=course.getQuestions().get(indexes[0]);
+                questions[1]=course.getQuestions().get(indexes[1]);
+                questions[2]=course.getQuestions().get(indexes[2]);
+                return new StartExamDTO(timerUtil.startExam(id,student,courseId),courseId,indexes,questions);
             }
         }
-        studentRepo.save(student);
-        return TimerUtil.startExam(id);
+        throw new RuntimeException("Something went wrong");
     }
     public String submitExam(HttpServletRequest request, String courseId,String examVal,List<StudentAnswer> answers){
         String id=jwtUtil.extractUserIdFromRequest(request);
-        if(!TimerUtil.isLegalKey(id,examVal)){
+        if(!timerUtil.isLegalKey(id,examVal)){
             throw new RuntimeException("not a valid key");
         }
         int marks=0;
@@ -194,9 +217,12 @@ public class CourseServiceImpl implements CourseService {
             StudentCourse stdCourse=student.getEnrolledCourses().get(i);
             if(stdCourse.getCourseId().equals(courseId)){
                 stdCourse.setPercentageMarks(Integer.toString(marks*100/3));
+                stdCourse.setComplete(true);
             }
         }
         studentRepo.save(student);
+        inferenceUtil.postStudent(new StudentInferenceDTO(student));
+        inferenceUtil.postCourse(courseUtil.makeCourseDTO(course));
         System.out.println("Exam Submitted");
         return marks+" Out of "+3;
     }

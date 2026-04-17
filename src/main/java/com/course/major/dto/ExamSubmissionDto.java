@@ -14,27 +14,21 @@ public class ExamSubmissionDto {
     @NotNull(message = "Answers list cannot be null")
     @Size(min = 3, max = 3, message = "Answers list must contain exactly 3 items")
     private List<StudentAnswer> answers;
-
     public String getExamVal() {
         return examVal;
     }
-
     public void setExamVal(String examVal) {
         this.examVal = examVal;
     }
-
     public String getCourseId() {
         return courseId;
     }
-
     public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
-
-    public List<StudentAnswer> getAnswers() {
+    public @NotNull List<StudentAnswer> getAnswers() {
         return answers;
     }
-
     public void setAnswers(List<StudentAnswer> answers) {
         this.answers = answers;
     }

@@ -3,6 +3,7 @@ package com.course.major.config;
 import com.course.major.security.RecruiterAuthenticationFilter;
 import com.course.major.security.StudentAuthenticationFilter;
 import com.course.major.security.TeacherAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -12,11 +13,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
+
+    // ================= STUDENT =================
     @Bean
     @Order(1)
     public SecurityFilterChain studentFilterChain(
@@ -27,7 +33,7 @@ public class SecurityConfig {
         http
                 .securityMatcher("/student/**")
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(corsConfigurationSource)) // FIX
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
@@ -43,6 +49,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // ================= TEACHER =================
     @Bean
     @Order(2)
     public SecurityFilterChain teacherFilterChain(
@@ -53,7 +60,7 @@ public class SecurityConfig {
         http
                 .securityMatcher("/teacher/**")
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(corsConfigurationSource)) // FIX
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
@@ -68,6 +75,8 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // ================= RECRUITER =================
     @Bean
     @Order(3)
     public SecurityFilterChain recruiterFilterChain(
@@ -78,7 +87,7 @@ public class SecurityConfig {
         http
                 .securityMatcher("/recruiter/**")
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(corsConfigurationSource)) // FIX
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
@@ -93,13 +102,15 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // ================= PUBLIC =================
     @Bean
     @Order(4)
     public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(corsConfigurationSource)) // FIX
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().permitAll()

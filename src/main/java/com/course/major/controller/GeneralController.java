@@ -4,7 +4,11 @@ import com.course.major.services.InferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-@CrossOrigin
+@CrossOrigin(
+        origins = {"http://127.0.0.1:5500"},
+        allowedHeaders = "*",
+        methods = {RequestMethod.GET, RequestMethod.OPTIONS}
+)
 @RestController
 public class GeneralController {
     @Autowired
@@ -21,6 +25,7 @@ public class GeneralController {
     public ResponseEntity<Object> search(@PathVariable String query,@PathVariable int page) {
         return new ResponseEntity<>(courseService.search(query,page), HttpStatus.OK);
     }
+
     /*@GetMapping("/getPages/{query}")
     public ResponseEntity<Object> getPages(@PathVariable String query) {
         return new ResponseEntity<>(courseService.getPageCount(query), HttpStatus.OK);
@@ -33,4 +38,5 @@ public class GeneralController {
     public ResponseEntity<Object> fetchStudents() {
         return new ResponseEntity<>(inferenceService.getStudents(), HttpStatus.OK);
     }
+
 }

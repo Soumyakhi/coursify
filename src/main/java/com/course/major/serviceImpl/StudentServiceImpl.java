@@ -2,12 +2,14 @@ package com.course.major.serviceImpl;
 
 import com.course.major.dto.LoginInfoDto;
 import com.course.major.dto.RegFileDto;
+import com.course.major.dto.StudentInferenceDTO;
 import com.course.major.dto.StudentInfoDto;
 import com.course.major.entity.StudentEntity;
 import com.course.major.pojo.StudentCourse;
 import com.course.major.repo.StudentRepo;
 import com.course.major.services.StudentService;
 import com.course.major.utils.AIUtil;
+import com.course.major.utils.InferenceUtil;
 import com.course.major.utils.JwtUtil;
 import com.course.major.utils.FileUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +31,8 @@ public class StudentServiceImpl implements StudentService {
     JwtUtil jwtUtil;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    InferenceUtil inferenceUtil;
     @Override
     public StudentEntity getStudent(String id) {
         return studentRepo.findById(id)
@@ -41,6 +45,8 @@ public class StudentServiceImpl implements StudentService {
         }
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         studentRepo.save(student);
+        StudentEntity s = studentRepo.findByEmail(student.getEmail());
+        inferenceUtil.postStudent(new StudentInferenceDTO(s));
     }
     @Override
     public StudentInfoDto login(LoginInfoDto loginInfoDto) {
@@ -99,6 +105,8 @@ public class StudentServiceImpl implements StudentService {
             studentEntity.setPhoneNumber(studentInfo.getPhoneNumber());
             studentEntity.setSkills(studentInfo.getSkills());
             studentRepo.save(studentEntity);
+            StudentEntity s = studentRepo.findByEmail(studentEntity.getEmail());
+            inferenceUtil.postStudent(new StudentInferenceDTO(s));
         }catch (Exception e){
             throw new IllegalStateException(e);
         }
@@ -116,6 +124,8 @@ public class StudentServiceImpl implements StudentService {
                 studentEntity.setPassword(existingStd.getPassword());
             }
             studentRepo.save(studentEntity);
+            StudentEntity s = getStudent(studentEntity.getId());
+            inferenceUtil.postStudent(new StudentInferenceDTO(s));
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -147,5 +157,6 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         studentRepo.save(student);
+        inferenceUtil.postStudent(new StudentInferenceDTO(getStudent(student.getId())));
     }
 }

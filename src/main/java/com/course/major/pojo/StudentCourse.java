@@ -65,4 +65,8 @@ public class StudentCourse {
     public void setRating(String rating) {
         this.rating = rating;
     }
+
+    public boolean getIsComplete() {
+        return isComplete;
+    }
 }

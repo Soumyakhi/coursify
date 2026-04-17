@@ -7,6 +7,7 @@ import io.github.sashirestela.openai.domain.chat.ChatRequest;
 import io.github.sashirestela.openai.domain.chat.message.ChatMsgSystem;
 import io.github.sashirestela.openai.domain.chat.message.ChatMsgUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import tools.jackson.databind.JsonNode;
@@ -47,6 +48,7 @@ public class AIUtil {
 
     }*/
     @Autowired
+    @Qualifier("groqWebClient")
     private WebClient webClient;
     public String askGroq(String prompt) {
         GroqDTO request = new GroqDTO();
