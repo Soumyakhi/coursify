@@ -80,4 +80,9 @@ public class StudentController {
     public ResponseEntity<Object> fetchCourse(HttpServletRequest request) {
         return new ResponseEntity<>(inferenceService.recommendCourse(request), HttpStatus.OK);
     }
+    @PutMapping("/notInterested/{courseId}")
+    public ResponseEntity<Object> notInterested(HttpServletRequest request,@PathVariable String courseId) {
+        studentService.addNotInterestedCourses(request,courseId);
+        return new ResponseEntity<>("added not Interested Course", HttpStatus.OK);
+    }
 }

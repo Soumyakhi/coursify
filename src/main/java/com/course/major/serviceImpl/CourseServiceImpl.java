@@ -73,17 +73,13 @@ public class CourseServiceImpl implements CourseService {
             throw new RuntimeException("Failed to add course", e);
         }
     }
-    @Override
-    public Course getCourse(String id) {
-        return courseRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
-    }
+
     @Autowired
     StudentService studentService;
     @Override
     public void enroll(HttpServletRequest request, String courseId) {
         String id=jwtUtil.extractUserIdFromRequest(request);
-        Course course=getCourse(courseId);
+        Course course=courseUtil.getCourse(courseId);
         StudentEntity student=studentService.getStudent(id);
         if(student.getEnrolledCourses()==null){
             student.setEnrolledCourses(new ArrayList<>());
@@ -102,14 +98,14 @@ public class CourseServiceImpl implements CourseService {
     CourseUtil courseUtil;
     @Override
     public CourseDto fetchCourse(String courseId) {
-        return courseUtil.makeCourseDTO(getCourse(courseId));
+        return courseUtil.makeCourseDTO(courseUtil.getCourse(courseId));
     }
     @Override
     public List<CourseDto> findMyCourses(HttpServletRequest request) {
         StudentEntity studentEntity=studentRepo.findById(jwtUtil.extractUserIdFromRequest(request)).orElseThrow(() -> new RuntimeException("Student not found"));
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(StudentCourse studentCourse:studentEntity.getEnrolledCourses()){
-            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(studentCourse.getCourseId())));
+            courseDtoList.add(courseUtil.makeCourseDTO(courseUtil.getCourse(studentCourse.getCourseId())));
         }
         return courseDtoList;
     }
@@ -120,7 +116,7 @@ public class CourseServiceImpl implements CourseService {
         List<CourseDto> courseDtoList = new ArrayList<>();
         List<Course> courseList = courseRepo.findAll();
         for(Course course:courseList){
-            courseDtoList.add(courseUtil.makeCourseDTO(getCourse(course.getId())));
+            courseDtoList.add(courseUtil.makeCourseDTO(courseUtil.getCourse(course.getId())));
         }
         inferenceUtil.postCourse(courseDtoList);
         return courseDtoList;
@@ -130,7 +126,7 @@ public class CourseServiceImpl implements CourseService {
     public StudentCourseDto fetchCourseStudent(HttpServletRequest request, String courseId) {
         String studentId = jwtUtil.extractUserIdFromRequest(request);
         StudentEntity studentEntity=studentRepo.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
-        return new StudentCourseDto(studentEntity,getCourse(courseId));
+        return new StudentCourseDto(studentEntity,courseUtil.getCourse(courseId));
     }
 
     @Override
@@ -181,7 +177,7 @@ public class CourseServiceImpl implements CourseService {
             StudentCourse stdCourse=student.getEnrolledCourses().get(i);
             if(stdCourse.getCourseId().equals(courseId) && !stdCourse.getIsComplete()){
                 studentRepo.save(student);
-                Course course=getCourse(stdCourse.getCourseId());
+                Course course=courseUtil.getCourse(stdCourse.getCourseId());
                 int min = 0, max = course.getQuestions().size()-1;
                 int[] indexes = new Random().ints(min, max + 1)
                         .distinct()
@@ -203,7 +199,7 @@ public class CourseServiceImpl implements CourseService {
         }
         int marks=0;
         StudentEntity student=studentRepo.findByIdAndEnrolledCoursesCourseId(id,courseId);
-        Course course=getCourse(courseId);
+        Course course=courseUtil.getCourse(courseId);
         List<Question> questions=course.getQuestions();
         for(int i=0;i<Math.min(3,answers.size());i++){
             StudentAnswer answer=answers.get(i);

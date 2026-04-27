@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface CourseService {
-    Course getCourse(String id);
     void addCourse(HttpServletRequest req, String courseDTO, MultipartFile material);
     void enroll(HttpServletRequest request,String courseId);
     CourseDto fetchCourse(String courseId);

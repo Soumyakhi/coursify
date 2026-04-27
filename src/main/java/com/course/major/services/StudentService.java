@@ -17,4 +17,5 @@ public interface StudentService {
     void editStudent(HttpServletRequest request,StudentEntity studentEntity);
     boolean checkEnrolled(HttpServletRequest request,String courseId);
     void rate(HttpServletRequest request, String courseId, String rating);
+    void addNotInterestedCourses(HttpServletRequest request, String courseId);
 }

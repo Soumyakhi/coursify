@@ -4,6 +4,7 @@ import com.course.major.entity.StudentEntity;
 import com.course.major.pojo.StudentCourse;
 
 import java.util.List;
+import java.util.Set;
 
 public class StudentInferenceDTO {
     private String studentId;
@@ -11,12 +12,23 @@ public class StudentInferenceDTO {
     private List<String> skills;
     private String description;
     private List<StudentCourse> enrolledCourses;
+    private Set<String> notInterestedCourses;
+
+    public Set<String> getNotInterestedCourses() {
+        return notInterestedCourses;
+    }
+
+    public void setNotInterestedCourses(Set<String> notInterestedCourses) {
+        this.notInterestedCourses = notInterestedCourses;
+    }
+
     public StudentInferenceDTO(StudentEntity studentEntity) {
         this.description=studentEntity.getDescription();
         this.studentId=studentEntity.getId();
         this.skills=studentEntity.getSkills();
         this.enrolledCourses=studentEntity.getEnrolledCourses();
         this.name=studentEntity.getName();
+        this.notInterestedCourses=studentEntity.getNotInterestedCourses();
     }
     public String getStudentId() {
         return studentId;

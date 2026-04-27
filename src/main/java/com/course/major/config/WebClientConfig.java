@@ -22,8 +22,8 @@ public class WebClientConfig {
     }
     @Bean
     public WebClient localWebClient() {
-        return WebClient.builder().
-                baseUrl("http://localhost:8000")
+        return WebClient.builder()
+                .baseUrl("http://localhost:8000")
                 //.baseUrl("https://driveway-progress-grandma.ngrok-free.dev")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();

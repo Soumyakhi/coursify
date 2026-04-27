@@ -47,6 +47,11 @@ public class CourseUtil {
         dto.setLevel(course.getLevel());
         dto.setTotalEnrolled(studentList.size());
         dto.setId(course.getId());
+        dto.setCreatedAt(course.getCreatedAt());
         return dto;
+    }
+    public Course getCourse(String id) {
+        return courseRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
     }
 }

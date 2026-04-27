@@ -7,11 +7,9 @@ import com.course.major.dto.StudentInfoDto;
 import com.course.major.entity.StudentEntity;
 import com.course.major.pojo.StudentCourse;
 import com.course.major.repo.StudentRepo;
+import com.course.major.services.CourseService;
 import com.course.major.services.StudentService;
-import com.course.major.utils.AIUtil;
-import com.course.major.utils.InferenceUtil;
-import com.course.major.utils.JwtUtil;
-import com.course.major.utils.FileUtil;
+import com.course.major.utils.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -33,6 +33,9 @@ public class StudentServiceImpl implements StudentService {
     BCryptPasswordEncoder passwordEncoder;
     @Autowired
     InferenceUtil inferenceUtil;
+    @Autowired
+    CourseUtil courseUtil;
+
     @Override
     public StudentEntity getStudent(String id) {
         return studentRepo.findById(id)
@@ -158,5 +161,22 @@ public class StudentServiceImpl implements StudentService {
         }
         studentRepo.save(student);
         inferenceUtil.postStudent(new StudentInferenceDTO(getStudent(student.getId())));
+    }
+
+    @Override
+    public void addNotInterestedCourses(HttpServletRequest request, String courseId) {
+        StudentEntity studentEntity=getStudent(jwtUtil.extractUserIdFromRequest(request));
+        if(studentEntity==null || courseUtil.getCourse(courseId) == null){
+            throw new RuntimeException("Student not found");
+        }
+        if(studentEntity.getNotInterestedCourses()==null){
+            studentEntity.setNotInterestedCourses(new HashSet<>());
+        }
+        if(studentEntity.getNotInterestedCourses().contains(courseId)){
+            throw new IllegalStateException("course already exists in not interested");
+        }
+        studentEntity.getNotInterestedCourses().add(courseId);
+        studentRepo.save(studentEntity);
+        inferenceUtil.postStudent(new StudentInferenceDTO(studentEntity));
     }
 }

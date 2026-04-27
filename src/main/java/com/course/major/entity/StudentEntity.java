@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
+import java.util.Set;
+
 @Document(collection = "students")
 public class StudentEntity {
     @Id
@@ -19,6 +21,16 @@ public class StudentEntity {
     private String email;
     private String password;
     private String description;
+    private Set<String> notInterestedCourses;
+
+    public Set<String> getNotInterestedCourses() {
+        return notInterestedCourses;
+    }
+
+    public void setNotInterestedCourses(Set<String> notInterestedCourses) {
+        this.notInterestedCourses = notInterestedCourses;
+    }
+
     private List<StudentCourse> enrolledCourses;
     public StudentEntity() {
         name = "";
@@ -29,7 +41,7 @@ public class StudentEntity {
                          String phoneNumber,
                          @NotNull String email,
                          String password,
-                         String description, List<String> courses, List<StudentCourse> enrolledCourses) {
+                         String description, List<String> courses, List<StudentCourse> enrolledCourses,Set<String> notInterestedCourses) {
 
         this.name = name;
         this.skills = skills;
@@ -38,6 +50,7 @@ public class StudentEntity {
         this.password = password;
         this.description = description;
         this.enrolledCourses = enrolledCourses;
+        this.notInterestedCourses = notInterestedCourses;
 
     }
     // Getters and Setters

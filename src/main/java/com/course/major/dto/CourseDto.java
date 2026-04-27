@@ -15,6 +15,7 @@ public class CourseDto {
     private String videoFilePath;
     private int totalEnrolled;
     private List<String> timeStamps;
+    private String createdAt;
     public CourseDto() {
     }
 
@@ -82,5 +83,13 @@ public class CourseDto {
     }
     public void setVideoFilePath(String videoFilePath) {
         this.videoFilePath = videoFilePath;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }

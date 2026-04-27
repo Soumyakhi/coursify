@@ -50,7 +50,7 @@ public class InferenceServiceImpl implements InferenceService {
         List<CourseDto> courseDtos = new ArrayList<>();
         List<RecommendDTO> recommendDTOs = inferenceUtil.callRecommend(studentId);
         for(RecommendDTO recommendDTO:recommendDTOs){
-            courseDtos.add(courseUtil.makeCourseDTO(courseService.getCourse(recommendDTO.getCourse_id())));
+            courseDtos.add(courseUtil.makeCourseDTO(courseUtil.getCourse(recommendDTO.getCourse_id())));
         }
         return courseDtos;
     }
