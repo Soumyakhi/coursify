@@ -48,6 +48,7 @@ public class CourseUtil {
         dto.setTotalEnrolled(studentList.size());
         dto.setId(course.getId());
         dto.setCreatedAt(course.getCreatedAt());
+        dto.setTimeStamps(course.getTimeStamps());
         return dto;
     }
     public Course getCourse(String id) {

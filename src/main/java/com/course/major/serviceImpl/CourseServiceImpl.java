@@ -126,7 +126,7 @@ public class CourseServiceImpl implements CourseService {
     public StudentCourseDto fetchCourseStudent(HttpServletRequest request, String courseId) {
         String studentId = jwtUtil.extractUserIdFromRequest(request);
         StudentEntity studentEntity=studentRepo.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
-        return new StudentCourseDto(studentEntity,courseUtil.getCourse(courseId));
+        return new StudentCourseDto(studentEntity,courseUtil.makeCourseDTO(courseUtil.getCourse(courseId)));
     }
 
     @Override
@@ -143,7 +143,6 @@ public class CourseServiceImpl implements CourseService {
         List<Course> courses = query.length() >= 3
                 ? courseRepo.findByNameContainingIgnoreCase(query, pageable)
                 : courseRepo.findByNameStartingWithIgnoreCase(query, pageable);
-
         List<CourseDto> courseDtoList = new ArrayList<>();
         for(Course course : courses){
             courseDtoList.add(courseUtil.makeCourseDTO(course));
@@ -235,8 +234,9 @@ public class CourseServiceImpl implements CourseService {
             else if(videoKeyId.endsWith("360")){
                 vidId=videoKeyId.substring(0,videoKeyId.length()-3);
             }
-            Course course=courseRepo.findByVideoFile(vidId);
-            StudentEntity student=studentRepo.findByIdAndEnrolledCoursesCourseId(id,course.getId());
+            //Course course=courseRepo.findByVideoFile(vidId);
+            //StudentEntity student=studentRepo.findByIdAndEnrolledCoursesCourseId(id,course.getId());
+            StudentEntity student=studentService.getStudent(id);
             if(student==null){
                 throw new RuntimeException("Student is not enrolled");
             }

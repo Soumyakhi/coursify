@@ -46,6 +46,7 @@ public class StudentServiceImpl implements StudentService {
         if (studentRepo.findByEmail(student.getEmail()) != null) {
             throw new IllegalStateException("Email already registered");
         }
+        student.setEnrolledCourses(new ArrayList<>());
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         studentRepo.save(student);
         StudentEntity s = studentRepo.findByEmail(student.getEmail());
@@ -107,6 +108,7 @@ public class StudentServiceImpl implements StudentService {
             studentEntity.setDescription(studentInfo.getDescription());
             studentEntity.setPhoneNumber(studentInfo.getPhoneNumber());
             studentEntity.setSkills(studentInfo.getSkills());
+            studentEntity.setEnrolledCourses(new ArrayList<>());
             studentRepo.save(studentEntity);
             StudentEntity s = studentRepo.findByEmail(studentEntity.getEmail());
             inferenceUtil.postStudent(new StudentInferenceDTO(s));
