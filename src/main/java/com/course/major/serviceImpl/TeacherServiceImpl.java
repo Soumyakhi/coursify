@@ -60,7 +60,7 @@ import java.util.List;
     public List<CourseDto> teacherCourses(HttpServletRequest request) {
             List<CourseDto> courseDtos = new ArrayList<>();
             String id= jwtUtil.extractUserIdFromRequest(request);
-            List<Course> courseList=courseRepo.findByTeacherId(id);
+            List<Course> courseList=courseRepo.findByTeacherIdOrderByIdDesc(id);
             for(Course course:courseList){
                 courseDtos.add(courseUtil.makeCourseDTO(course));
             }

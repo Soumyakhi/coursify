@@ -35,6 +35,6 @@ public class TeacherController {
     }
     @GetMapping("/fetchMyCourses")
     public ResponseEntity<Object> fetchMyCourses(HttpServletRequest request) {
-        return new ResponseEntity<>(courseService.findMyCourses(request), HttpStatus.OK);
+        return new ResponseEntity<>(teacherService.teacherCourses(request), HttpStatus.OK);
     }
 }

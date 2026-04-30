@@ -13,7 +13,7 @@ public class StudentAnswer {
         return index;
     }
     public void setIndex(int index) {
-        if (index < 0 || index > 4) {
+        if (index < 0) {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
         this.index = index;

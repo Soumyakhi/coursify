@@ -15,6 +15,6 @@ public interface CourseRepo extends MongoRepository<Course, String> {
     List<Course> findByNameStartingWithIgnoreCase(String query, Pageable pageable);
     long countByNameContainingIgnoreCase(String query);
     long countByNameStartingWithIgnoreCase(String query);
-    List<Course> findByTeacherId(String teacherId);
+    List<Course> findByTeacherIdOrderByIdDesc(String teacherId);
 
 }

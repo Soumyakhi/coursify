@@ -67,9 +67,6 @@ public class CourseDto {
         if (questions == null || questions.size() <= 3) {
             throw new IllegalArgumentException("Course must contain at least 4 questions");
         }
-        for (Question question : questions) {
-            question.setCorrectAnswer(-1);
-        }
         this.questions = questions;
     }
     public String getRating() {
