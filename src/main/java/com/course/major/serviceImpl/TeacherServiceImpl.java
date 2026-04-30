@@ -34,8 +34,6 @@ import java.util.List;
         CourseRepo courseRepo;
         @Autowired
         CourseUtil courseUtil;
-        @Autowired
-        TeacherService teacherService;
         @Override
         public TeacherEntity getTeacher(String id) {
             return teacherRepo.findById(id)
