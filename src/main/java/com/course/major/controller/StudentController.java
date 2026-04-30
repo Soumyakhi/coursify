@@ -58,7 +58,7 @@ public class StudentController {
         studentService.rate(request,courseId,rating);
         return new ResponseEntity<>("Rating added", HttpStatus.OK);
     }
-    @GetMapping("/fetchMyCourses/")
+    @GetMapping("/fetchMyCourses")
     public ResponseEntity<Object> fetchMyCourses(HttpServletRequest request) {
         return new ResponseEntity<>(courseService.findMyCourses(request), HttpStatus.OK);
     }
