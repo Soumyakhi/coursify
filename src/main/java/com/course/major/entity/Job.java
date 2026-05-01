@@ -12,12 +12,13 @@ public class Job {
     @Id
     private String id;
     private String recruiterId;
+    private int totalRecommendations;
     private String position;
     private String description;
     private String link;
     private Map<String,String> recommendationIds;
     private boolean active;
-    public Job(String id, String recruiterId, String position, String description, String link,boolean active) {
+    public Job(String id, String recruiterId, String position, String description, String link,boolean active,int totalRecommendations) {
         this.id = id;
         this.recruiterId = recruiterId;
         this.position = position;
@@ -25,7 +26,17 @@ public class Job {
         this.link = link;
         this.active = active;
         this.recommendationIds = new HashMap<>();
+        this.totalRecommendations = totalRecommendations;
     }
+
+    public int getTotalRecommendations() {
+        return totalRecommendations;
+    }
+
+    public void setTotalRecommendations(int totalRecommendations) {
+        this.totalRecommendations = totalRecommendations;
+    }
+
     public Job() {
     }
     public Job(String id, String recruiterId, String description, String position, String link, Map<String, String> recommendationIds,boolean active) {

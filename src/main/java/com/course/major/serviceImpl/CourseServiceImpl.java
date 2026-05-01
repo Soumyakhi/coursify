@@ -101,13 +101,13 @@ public class CourseServiceImpl implements CourseService {
         return courseUtil.makeCourseDTO(courseUtil.getCourse(courseId));
     }
     @Override
-    public List<CourseDto> findMyCourses(HttpServletRequest request) {
+    public List<StudentCourseDto> findMyCourses(HttpServletRequest request) {
         StudentEntity studentEntity=studentRepo.findById(jwtUtil.extractUserIdFromRequest(request)).orElseThrow(() -> new RuntimeException("Student not found"));
-        List<CourseDto> courseDtoList = new ArrayList<>();
+        List<StudentCourseDto> studentCourseDtos = new ArrayList<>();
         for(StudentCourse studentCourse:studentEntity.getEnrolledCourses()){
-            courseDtoList.add(courseUtil.makeCourseDTO(courseUtil.getCourse(studentCourse.getCourseId())));
+            studentCourseDtos.add(new StudentCourseDto(studentEntity,courseUtil.makeCourseDTO(courseUtil.getCourse(studentCourse.getCourseId()))));
         }
-        return courseDtoList;
+        return studentCourseDtos;
     }
     @Autowired
     InferenceUtil inferenceUtil;
@@ -136,7 +136,7 @@ public class CourseServiceImpl implements CourseService {
         }
 
         query = query.trim();
-        int pageSize = 5;
+        int pageSize = 6;
 
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("name").ascending());
 

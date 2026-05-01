@@ -19,7 +19,7 @@ public interface CourseService {
     StartExamDTO takeExam(HttpServletRequest request, String courseId);
     String submitExam(HttpServletRequest request, String courseId, String examVal, List<StudentAnswer> answers);
     ResponseEntity<byte[]> getKeyVideo(HttpServletRequest request, String videoKeyId);
-    List<CourseDto> findMyCourses(HttpServletRequest request);
+    List<StudentCourseDto> findMyCourses(HttpServletRequest request);
     PageResDto search(String query, int page);
     long getPageCount(String query, int pageSize);
     List<CourseDto> fetchCourses();

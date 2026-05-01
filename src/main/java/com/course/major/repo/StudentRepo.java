@@ -4,6 +4,7 @@ import java.util.List;
 import com.course.major.dto.LoginInfoDto;
 import com.course.major.dto.StudentInfoDto;
 import com.course.major.entity.StudentEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,5 +20,5 @@ public interface StudentRepo extends MongoRepository<StudentEntity, String> {
     List<StudentEntity> findRatingsByCourseId(String courseId);
     StudentEntity findByIdAndEnrolledCoursesCourseId(String id,String courseId);
     @Query(value = "{}", fields = "{ '_id': 1 }")
-    List<StudentEntity> findTop2By();
+    List<StudentEntity> findTopBy(Pageable pageable);
 }
