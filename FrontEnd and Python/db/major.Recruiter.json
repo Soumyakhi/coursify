@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "69af8c2e8db4255e34b6d0b3"
+  },
+  "companyName": "LtiMindTree",
+  "name": "Soumyajit Rec",
+  "email": "soumyajit.kundu@recruiter.com",
+  "password": "$2a$10$BqSueoedCVNwUF23YWU/AORMTWlIe9iBuWbALqrosY7QBALQoa5XS",
+  "_class": "com.course.major.entity.Recruiter"
+},
+{
+  "_id": {
+    "$oid": "69f5fc322ed4e5cefbd01f07"
+  },
+  "companyName": "Streebo",
+  "name": "Soumya Gamer",
+  "email": "Soumya@Soumya.com",
+  "password": "$2a$10$ANHM3OshrbPNREbHYUk6cu.g/oq7ddgHt7LboL4HUibf3bw6hNwFW",
+  "_class": "com.course.major.entity.Recruiter"
+}]

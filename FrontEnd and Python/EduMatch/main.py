@@ -1,4 +1,5 @@
 import uvicorn
+import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
@@ -11,9 +12,7 @@ from app.routes.student_routes import router as student_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("!!! STARTING INITIALIZATION !!!")
-
     instance = HybridCourseRecommender()
-
     try:
         await instance.initialize()
         app.state.recommender = instance
@@ -21,9 +20,19 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         app.state.recommender = None
         print(f"!!! INITIALIZATION FAILED: {e} !!!")
+    async def periodic_retrain():
+        while True:
+            await asyncio.sleep(60 * 30)
+            try:
+                print("🔄 Running periodic retraining...")
+                await instance.initialize()
+                print("Retraining complete")
+            except Exception as e:
+                print(f"Retraining failed: {e}")
+    task = asyncio.create_task(periodic_retrain())
 
     yield
-
+    task.cancel()
     app.state.recommender = None
 
 

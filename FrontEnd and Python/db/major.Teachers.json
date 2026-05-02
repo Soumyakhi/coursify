@@ -1,0 +1,63 @@
+[{
+  "_id": {
+    "$oid": "697716782d72eb8a6c8d1257"
+  },
+  "name": "Soumyajit Kundu",
+  "email": "soumyajit.kundu@gmail.com",
+  "password": "$2a$10$7vgjF1L0mDy5uo5G/stjH.3qD18r5kdAO08S2/PfdZBF7SLSPm1FK",
+  "_class": "com.course.major.entity.TeacherEntity"
+},
+{
+  "_id": {
+    "$oid": "69f23f4d5992f8eb4a2f2334"
+  },
+  "name": "NEW TEACHER",
+  "email": "newteacher@gmail.com",
+  "password": "$2a$10$Q4tJzjx.aGNr3hprrLj7geJn1Z2QyRiefupn34BgJWaSKG2CPXWDi",
+  "_class": "com.course.major.entity.TeacherEntity"
+},
+{
+  "_id": {
+    "$oid": "69f23f625992f8eb4a2f2335"
+  },
+  "name": "NEW TEACHER",
+  "email": "newteacher1@gmail.com",
+  "password": "$2a$10$ZUHcbpam58nHVzLK3ppsreCyTy1G5CsEeFuoEVhnRcVco5YheDnVe",
+  "_class": "com.course.major.entity.TeacherEntity"
+},
+{
+  "_id": {
+    "$oid": "69f242cb5992f8eb4a2f2336"
+  },
+  "name": "full name",
+  "email": "fullname@gmail.com",
+  "password": "$2a$10$i1ezz1GCnwoWlZI2InVcQOWkx3MwfD9XVJuLDmNxdiD.Eq/KANuEC",
+  "_class": "com.course.major.entity.TeacherEntity"
+},
+{
+  "_id": {
+    "$oid": "69f2456b5992f8eb4a2f2337"
+  },
+  "name": "bhaloteacher",
+  "email": "as@gmail.com",
+  "password": "$2a$10$ZiYcyWC9cEFcCM0uYwMYZORq.3tbPXlh2/1ZrziyihhLUh3kDMB8u",
+  "_class": "com.course.major.entity.TeacherEntity"
+},
+{
+  "_id": {
+    "$oid": "69f24c725992f8eb4a2f2338"
+  },
+  "name": "k@asd",
+  "email": "k@gmail.com",
+  "password": "$2a$10$rfAb13SjsFArvZyzJAarLO9vELT/MSungJdZfTf.jL7.3ENl1HGTa",
+  "_class": "com.course.major.entity.TeacherEntity"
+},
+{
+  "_id": {
+    "$oid": "69f63390f7402487ef1cce6f"
+  },
+  "name": "Sayani Teacher",
+  "email": "Sayani@Teacher.com",
+  "password": "$2a$10$2wcxyzMpZYSji/CZRCs7leOB9icX7IUGYBm5H89QpImyolCJju5gC",
+  "_class": "com.course.major.entity.TeacherEntity"
+}]
