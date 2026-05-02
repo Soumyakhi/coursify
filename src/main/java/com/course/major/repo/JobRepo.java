@@ -12,6 +12,6 @@ public interface JobRepo extends MongoRepository<Job, String> {
 
     @Query("{ '_id': ?0, 'recommendationIds.?1': { $exists: true } }")
     Optional<Job> findByIdAndRecommendationKey(String jobId, String studentId);
-
     Job findByIdAndRecruiterId(String jobId, String recruiterId);
+    List<Job> findAllByRecruiterId(String recruiterId);
 }

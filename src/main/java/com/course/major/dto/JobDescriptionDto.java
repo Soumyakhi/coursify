@@ -22,6 +22,26 @@ public class JobDescriptionDto {
         this.companyName = recruiter.getCompanyName();
         this.recommendationKey = key;
     }
+    public JobDescriptionDto(Job job, Recruiter recruiter) {
+        this.id = job.getId();
+        this.position = job.getPosition();
+        this.description = job.getDescription();
+        this.link = job.getLink();
+        this.recruiterName = recruiter.getName();
+        this.recruiterId = recruiter.getId();
+        this.companyName = recruiter.getCompanyName();
+        this.recommendationKey = "";
+    }
+    public JobDescriptionDto(Job job) {
+        this.id = job.getId();
+        this.position = job.getPosition();
+        this.description = job.getDescription();
+        this.link = job.getLink();
+        this.recruiterName = "";
+        this.recruiterId = "";
+        this.companyName = "";
+        this.recommendationKey = "";
+    }
     public String getRecommendationKey() {
         return recommendationKey;
     }

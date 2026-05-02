@@ -90,7 +90,6 @@ public class JobServiceImpl implements JobService {
             System.out.println("Found job: " + job.getId());
             jobsDto.add(jobUtil.getJobDescriptionDto(job, studentId));
         }
-
         return jobsDto;
     }
 }
