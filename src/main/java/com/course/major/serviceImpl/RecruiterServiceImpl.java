@@ -3,10 +3,8 @@ package com.course.major.serviceImpl;
 import com.course.major.dto.JobDescriptionDto;
 import com.course.major.dto.LoginInfoDto;
 import com.course.major.dto.RecruiterInfoDTO;
-import com.course.major.dto.TeacherInfoDto;
 import com.course.major.entity.Job;
 import com.course.major.entity.Recruiter;
-import com.course.major.entity.TeacherEntity;
 import com.course.major.repo.JobRepo;
 import com.course.major.repo.RecruiterRepo;
 import com.course.major.services.RecruiterService;
@@ -19,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,12 +75,7 @@ public class RecruiterServiceImpl implements RecruiterService {
         return false;
     }
     @Override
-    public List<JobDescriptionDto> fetchJobsRecruiter(HttpServletRequest request) {
-        List<Job> jobs= jobRepo.findAllByRecruiterId(jwtUtil.extractUserIdFromRequest(request));
-        List<JobDescriptionDto> jobDescriptionDtos=new ArrayList<>();
-        for(Job job:jobs){
-            jobDescriptionDtos.add(new JobDescriptionDto(job));
-        }
-        return jobDescriptionDtos;
+    public List<Job> fetchJobsRecruiter(HttpServletRequest request) {
+        return jobRepo.findAllByRecruiterId(jwtUtil.extractUserIdFromRequest(request));
     }
 }
