@@ -3,6 +3,8 @@ package com.course.major.dto;
 import com.course.major.entity.Job;
 import com.course.major.entity.Recruiter;
 
+import java.util.List;
+
 public class JobDescriptionDto {
     private String id;
     private String recruiterName;
@@ -12,6 +14,9 @@ public class JobDescriptionDto {
     private String link;
     private String companyName;
     private String recommendationKey;
+    private List<String> skills;
+    private String qualification;
+    private String experience;
     public JobDescriptionDto(Job job, Recruiter recruiter,String key) {
         this.id = job.getId();
         this.position = job.getPosition();
@@ -21,6 +26,9 @@ public class JobDescriptionDto {
         this.recruiterId = recruiter.getId();
         this.companyName = recruiter.getCompanyName();
         this.recommendationKey = key;
+        this.skills = job.getSkills();
+        this.qualification = job.getQualification();
+        this.experience = job.getExperience();
     }
     public JobDescriptionDto(Job job, Recruiter recruiter) {
         this.id = job.getId();
@@ -30,6 +38,9 @@ public class JobDescriptionDto {
         this.recruiterName = recruiter.getName();
         this.recruiterId = recruiter.getId();
         this.companyName = recruiter.getCompanyName();
+        this.skills = job.getSkills();
+        this.qualification = job.getQualification();
+        this.experience = job.getExperience();
         this.recommendationKey = "";
     }
     public JobDescriptionDto(Job job) {
@@ -41,7 +52,35 @@ public class JobDescriptionDto {
         this.recruiterId = "";
         this.companyName = "";
         this.recommendationKey = "";
+        this.skills = job.getSkills();
+        this.qualification = job.getQualification();
+        this.experience = job.getExperience();
     }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
+
+    public String getQualification() {
+        return qualification;
+    }
+
+    public void setQualification(String qualification) {
+        this.qualification = qualification;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
     public String getRecommendationKey() {
         return recommendationKey;
     }

@@ -3,6 +3,7 @@ package com.course.major.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,13 @@ public class Job {
     private String description;
     private String link;
     private Map<String,String> recommendationIds;
+    private String experience;
+    private List<String> skills;
+    private String qualification;
+    private Map<String,String> experienceIds;
     private boolean active;
-    public Job(String id, String recruiterId, String position, String description, String link,boolean active,int totalRecommendations) {
+    public Job(String id, String recruiterId, String position, String description, String link,boolean active,int totalRecommendations,
+               String experience,List<String> skills,String qualification) {
         this.id = id;
         this.recruiterId = recruiterId;
         this.position = position;
@@ -27,6 +33,41 @@ public class Job {
         this.active = active;
         this.recommendationIds = new HashMap<>();
         this.totalRecommendations = totalRecommendations;
+        this.experience = experience;
+        this.skills = skills;
+        this.qualification = qualification;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
+
+    public String getQualification() {
+        return qualification;
+    }
+
+    public void setQualification(String qualification) {
+        this.qualification = qualification;
+    }
+
+    public Map<String, String> getExperienceIds() {
+        return experienceIds;
+    }
+
+    public void setExperienceIds(Map<String, String> experienceIds) {
+        this.experienceIds = experienceIds;
     }
 
     public int getTotalRecommendations() {
