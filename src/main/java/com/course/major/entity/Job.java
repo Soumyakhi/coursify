@@ -20,7 +20,6 @@ public class Job {
     private Map<String,String> recommendationIds;
     private String experience;
     private List<String> skills;
-    private String qualification;
     private Map<String,String> experienceIds;
     private boolean active;
     public Job(String id, String recruiterId, String position, String description, String link,boolean active,int totalRecommendations,
@@ -35,7 +34,6 @@ public class Job {
         this.totalRecommendations = totalRecommendations;
         this.experience = experience;
         this.skills = skills;
-        this.qualification = qualification;
     }
 
     public String getExperience() {
@@ -53,14 +51,7 @@ public class Job {
     public void setSkills(List<String> skills) {
         this.skills = skills;
     }
-
-    public String getQualification() {
-        return qualification;
-    }
-
-    public void setQualification(String qualification) {
-        this.qualification = qualification;
-    }
+    
 
     public Map<String, String> getExperienceIds() {
         return experienceIds;

@@ -15,7 +15,6 @@ public class JobDescriptionDto {
     private String companyName;
     private String recommendationKey;
     private List<String> skills;
-    private String qualification;
     private String experience;
     public JobDescriptionDto(Job job, Recruiter recruiter,String key) {
         this.id = job.getId();
@@ -27,7 +26,6 @@ public class JobDescriptionDto {
         this.companyName = recruiter.getCompanyName();
         this.recommendationKey = key;
         this.skills = job.getSkills();
-        this.qualification = job.getQualification();
         this.experience = job.getExperience();
     }
     public JobDescriptionDto(Job job, Recruiter recruiter) {
@@ -39,7 +37,6 @@ public class JobDescriptionDto {
         this.recruiterId = recruiter.getId();
         this.companyName = recruiter.getCompanyName();
         this.skills = job.getSkills();
-        this.qualification = job.getQualification();
         this.experience = job.getExperience();
         this.recommendationKey = "";
     }
@@ -53,7 +50,6 @@ public class JobDescriptionDto {
         this.companyName = "";
         this.recommendationKey = "";
         this.skills = job.getSkills();
-        this.qualification = job.getQualification();
         this.experience = job.getExperience();
     }
 
@@ -65,13 +61,6 @@ public class JobDescriptionDto {
         this.skills = skills;
     }
 
-    public String getQualification() {
-        return qualification;
-    }
-
-    public void setQualification(String qualification) {
-        this.qualification = qualification;
-    }
 
     public String getExperience() {
         return experience;

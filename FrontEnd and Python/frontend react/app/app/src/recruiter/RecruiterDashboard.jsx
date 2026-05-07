@@ -11,7 +11,6 @@ import {
   FiXCircle,
   FiSearch,
   FiTag,
-  FiAward,
   FiClock,
   FiPlus,
 } from "react-icons/fi";
@@ -29,7 +28,6 @@ const emptyJob = {
   link: "",
   totalRecommendations: "",
   skills: [],
-  qualification: "",
   experience: "",
 };
 
@@ -125,7 +123,6 @@ const RecruiterDashboard = () => {
         link: jobForm.link,
         totalRecommendations: Number(jobForm.totalRecommendations),
         skills: jobForm.skills,
-        qualification: jobForm.qualification,
         experience: jobForm.experience,
       });
       Swal.fire({
@@ -334,18 +331,6 @@ const RecruiterDashboard = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">
-                      <span className="flex items-center gap-1.5"><FiAward size={13} /> Qualification</span>
-                    </label>
-                    <input
-                      type="text" value={jobForm.qualification}
-                      onChange={(e) => setJobForm({ ...jobForm, qualification: e.target.value })}
-                      placeholder="e.g. B.Tech / B.E. in Computer Science"
-                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#0A66C2] outline-none text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       <span className="flex items-center gap-1.5"><FiClock size={13} /> Experience</span>
                     </label>
                     <input
@@ -484,7 +469,6 @@ const ActiveJobCard = ({ job, onRefresh }) => {
 
         {/* Meta info */}
         <div className="space-y-1.5 py-2 border-y border-slate-100">
-          <MetaRow icon={FiAward} label="Qualification" value={job.qualification} />
           <MetaRow icon={FiClock} label="Experience" value={job.experience} />
         </div>
 
@@ -597,7 +581,6 @@ const InactiveJobCard = ({ job }) => {
         <p className="text-sm text-slate-500 line-clamp-2">{job.description}</p>
 
         <div className="space-y-1.5 py-2 border-y border-slate-100">
-          <MetaRow icon={FiAward} label="Qualification" value={job.qualification} />
           <MetaRow icon={FiClock} label="Experience" value={job.experience} />
         </div>
 
