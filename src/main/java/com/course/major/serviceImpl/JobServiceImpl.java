@@ -9,6 +9,7 @@ import com.course.major.repo.RecruiterRepo;
 import com.course.major.repo.StudentRepo;
 import com.course.major.services.JobService;
 import com.course.major.services.RecruiterService;
+import com.course.major.utils.InferenceUtil;
 import com.course.major.utils.JobUtil;
 import com.course.major.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,15 +40,17 @@ public class JobServiceImpl implements JobService {
     private JobUtil jobUtil;
     @Autowired
     private MongoTemplate mongoTemplate;
-
+    @Autowired
+    private InferenceUtil inferenceUtil;
     @Override
     public void createJob(Job job, HttpServletRequest request) {
         try {
             Recruiter recruiter = recruiterService.getRecruiter(jwtUtil.extractUserIdFromRequest(request));
-            List<StudentEntity> studentEntity = studentRepo.findTopBy(Pageable.ofSize(job.getTotalRecommendations()));
+            List<String> studentList = inferenceUtil.callJobRecommender(job);
+            //System.out.println(studentList);
             Map<String, String> recommendationMap = new HashMap<>();
-            for (StudentEntity student : studentEntity) {
-                recommendationMap.put(student.getId(), UUID.randomUUID().toString());
+            for (String studentId : studentList) {
+                recommendationMap.put(studentId, UUID.randomUUID().toString());
             }
             job.setRecruiterId(recruiter.getId());
             job.setActive(true);

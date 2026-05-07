@@ -3,8 +3,10 @@ package com.course.major.utils;
 import com.course.major.dto.CourseDto;
 import com.course.major.dto.RecommendDTO;
 import com.course.major.dto.StudentInferenceDTO;
+import com.course.major.entity.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -52,5 +54,12 @@ public class InferenceUtil {
                 .collectList()
                 .block();
     }
-
+    public List<String> callJobRecommender(Job job) {
+        return webClient.post()
+                .uri("/recommendJobsTostudents")
+                .bodyValue(job)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
+                .block();
+    }
 }
