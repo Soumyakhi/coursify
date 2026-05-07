@@ -1,0 +1,200 @@
+.student-signup-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0A66C2;
+  text-align: center;
+}
+
+.header p {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Toggle buttons */
+.toggle-btns {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.toggle-btns button {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.toggle-btns button.active {
+  background-color: #0A66C2;
+  color: white;
+}
+
+.toggle-btns button.inactive {
+  background-color: #eee;
+  color: #333;
+}
+
+/* Form */
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.input:focus {
+  border-color: #0A66C2;
+  box-shadow: 0 0 0 2px rgba(10, 102, 194, 0.15);
+}
+
+.input-error {
+  border-color: #ef4444;
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+/* Error */
+.error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 8px;
+  background-color: #0A66C2;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0958a5;
+}
+
+.btn-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Password Icon */
+.relative { position: relative; }
+.icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #0A66C2;
+  font-size: 18px;
+}
+
+/* Skills */
+.dropdown {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  margin-top: 4px;
+  border-radius: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background: #f3f3f3;
+}
+
+.skill-tag {
+  display: flex;
+  align-items: center;
+  background: #0A66C2;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.skill-tag svg {
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+/* File input */
+input[type="file"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* File input default (before upload) */
+/* File input colors */
+.file-unselected {
+    background-color: #f3f3f3;
+    color: #555;
+    cursor: pointer;
+    padding: 10px;
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.file-selected {
+    background-color: #d0f0c0; /* light green after selecting */
+    color: #111;
+    cursor: pointer;
+    padding: 10px;
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.file-input {
+    display: none;
+}
+
+/* Disabled button */
+.btn-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .skill-tag { font-size: 11px; padding: 4px 8px; }
+  .dropdown-item { font-size: 13px; }
+  .icon { font-size: 16px; }
+}
